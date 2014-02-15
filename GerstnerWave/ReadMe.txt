@@ -13,7 +13,7 @@ Environment requirements:
   glew 1.10
   GLM 0.9.5.1
 
-Please replace the 254th to the 265th lines in "Include/glm/gtc/matrix_transform.inl" with the following content:
+Please replace the 254th to the 264th lines in "Include/glm/gtc/matrix_transform.inl" with the following content:
 
         valType const rad = glm::radians(fovy);
 #endif
