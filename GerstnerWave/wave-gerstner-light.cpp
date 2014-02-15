@@ -1,32 +1,27 @@
-#include <stdafx.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <gl/glew.h>
-#ifdef __APPLE__
-#  include <gl/glut.h>
-#else
-#  include <freeglut/freeglut.h>
-#endif
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <math.h>
-#include "util.h"
+/****************************************************************************/
+/*	Render water surface using Gerstner waves	*/
+/*	with textures, VAO and normal calculating.	*/
+/*	Author:	John Hany	*/
+/*	Updated version can be downloaded from:		*/
+/*		https://github.com/johnhany/OpenGLProjects	*/
+/*	You can read my blog about the code in:		*/
+/*		http://johnhany.net/2014/02/water-rendering-with-gerstner-wave/	*/
+
 
 #define SCREEN_WIDTH	800
 #define SCREEN_HEIGHT	600
 
-#define START_X		-2.5
+#define START_X		-4.0
 #define START_Y		-2.5
 #define START_Z		0
 #define LENGTH_X	0.1
 #define LENGTH_Y	0.1
 
+#define HEIGHT_SCALE	1.6
+
 #define WAVE_COUNT		6
 
-#define STRIP_COUNT		50
+#define STRIP_COUNT		80
 #define STRIP_LENGTH	50
 #define DATA_LENGTH		STRIP_LENGTH*2*(STRIP_COUNT-1)
 
@@ -210,8 +205,8 @@ static GLuint initTexture(const char *filename)
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, pixels);
 
 	free(pixels);
@@ -316,7 +311,7 @@ static void calcuWave(void)
 					wave += values.wave_height[w] - gerstnerZ(values.wave_length[w], values.wave_height[w], d + values.wave_speed[w] * values.time, gerstner_pt_b);
 				}
 			}
-			pt_strip[index+2] = START_Z + wave;
+			pt_strip[index+2] = START_Z + wave*HEIGHT_SCALE;
 			index += 3;
 		}
 	}
@@ -398,6 +393,7 @@ static void initGL(void)
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	GLfloat materAmbient[] = {0.1, 0.1, 0.3, 1.0};
 	GLfloat materSpecular[] = {0.8, 0.8, 0.9, 1.0};
 	GLfloat lightDiffuse[] = {0.7, 0.7, 0.8, 1.0};
@@ -425,8 +421,8 @@ static void initGL(void)
 	names.uniforms.normal_texture = glGetUniformLocation(names.program, "textures[1]");
 	glUniform1i(names.uniforms.normal_texture, 1);
 
-	glm::mat4 Projection = glm::perspective(55.0f, (float)(SCREEN_WIDTH/SCREEN_HEIGHT), 0.1f, 100.f);
-	glm::mat4 ViewRotateX = glm::rotate(glm::mat4(1.0f), 60.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 Projection = glm::perspective(65.0f, (float)(SCREEN_WIDTH/SCREEN_HEIGHT), 0.1f, 100.f);
+	glm::mat4 ViewRotateX = glm::rotate(glm::mat4(1.0f), 45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 	glm::mat4 View = glm::translate(ViewRotateX, glm::vec3(0.0f, 0.3f, 1.0f));
 	glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.6f));
 	glm::mat4 ModelViewMat = View * Model;
@@ -441,6 +437,8 @@ static void displayFunc(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	calcuWave();
+
+	glUniform1f(glGetUniformLocation(names.program, "time"), values.time);
 
 	glBindBuffer(GL_ARRAY_BUFFER, names.vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_data), vertex_data, GL_STATIC_DRAW);
@@ -463,3 +461,4 @@ static void displayFunc(void)
 
 	glutSwapBuffers();
 }
+
