@@ -1,5 +1,8 @@
 /**** Rendering water using Gerstner waves ****/
 /**** With texture, VAO, normal calculating and Ward's Anisotropic lighting model ****/
+/**** Read about it in my blog: ****/
+
+  http://johnhany.net/2014/02/water-rendering-with-gerstner-wave/
 
 /**** Environment requirements: ****/
 
