@@ -1,5 +1,9 @@
 OpenGL Projects by John Hany
 
-They are mostly written in C, based on OpenGL and GLSL.
+Including:
 
-You can read my articles in http://johnhany.net
+  GerstnerWave - rendering water surface using Gerstner waves
+  
+
+
+You can read my articles about them in http://johnhany.net/tech-article/opengl/
