@@ -21,11 +21,11 @@ Please replace the 254th to the 264th lines in "Include/glm/gtc/matrix_transform
         valType tanHalfFovy = tan(rad);
  
         detail::tmat4x4<valType, defaultp> Result(valType(0));
-		    Result[0][0] = valType(1) / (tanHalfFovy);
-		    Result[1][1] = (aspect) / (tanHalfFovy);
-		    Result[2][2] = - (zFar + zNear) / (zFar - zNear);
-		    Result[2][3] = - (valType(2) * zFar * zNear) / (zFar - zNear);
-		    Result[3][2] = - valType(1);
+	Result[0][0] = valType(1) / (tanHalfFovy);
+	Result[1][1] = (aspect) / (tanHalfFovy);
+	Result[2][2] = - (zFar + zNear) / (zFar - zNear);
+	Result[2][3] = - (valType(2) * zFar * zNear) / (zFar - zNear);
+	Result[3][2] = - valType(1);
 
 
 
