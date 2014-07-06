@@ -421,11 +421,10 @@ static void initGL(void)
 	names.uniforms.normal_texture = glGetUniformLocation(names.program, "textures[1]");
 	glUniform1i(names.uniforms.normal_texture, 1);
 
-	glm::mat4 Projection = glm::perspective(65.0f, (float)(SCREEN_WIDTH/SCREEN_HEIGHT), 0.1f, 100.f);
-	glm::mat4 ViewRotateX = glm::rotate(glm::mat4(1.0f), 45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
-	glm::mat4 View = glm::translate(ViewRotateX, glm::vec3(0.0f, 0.3f, 1.0f));
-	glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.6f));
-	glm::mat4 ModelViewMat = View * Model;
+	glm::mat4 Projection = glm::perspective(45.0f, (float)(SCREEN_WIDTH/SCREEN_HEIGHT), 1.0f, 100.f);
+	glm::mat4 viewTransMat = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.5f));
+	glm::mat4 viewRotateMat = glm::rotate(viewTransMat, -45.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 ModelViewMat = glm::scale(viewRotateMat, glm::vec3(1.0f, 1.0f, 1.0f));
 	glm::mat3 NormalMat = glm::transpose(glm::inverse(glm::mat3(ModelViewMat)));
 	glUniformMatrix4fv(glGetUniformLocation(names.program, "modelViewMat"), 1, GL_FALSE, glm::value_ptr(ModelViewMat));
 	glUniformMatrix4fv(glGetUniformLocation(names.program, "perspProjMat"), 1, GL_FALSE, glm::value_ptr(Projection));
