@@ -32,6 +32,6 @@ void main()
 	eyeVect = normalize(eyePos - ptVertex);
 	lightVect = normalize(lightPos - ptVertex);
 	halfWayVect = eyeVect + lightVect;
+	normalVect = normalMat * normal;
 	reflectVect = 1.0 * eyeVect - 2.0 * dot(-1.0*eyeVect, normalVect) * normalVect;
-	normalVect = normalMat * normal, 1.0;
 }
