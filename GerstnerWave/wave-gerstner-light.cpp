@@ -7,6 +7,22 @@
 /*	You can read my blog about the code in:		*/
 /*		http://johnhany.net/2014/02/water-rendering-with-gerstner-wave/	*/
 
+#include <stdafx.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <gl/glew.h>
+#ifdef __APPLE__
+#  include <gl/glut.h>
+#else
+#  include <freeglut/freeglut.h>
+#endif
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <math.h>
+#include "util.h"
 
 #define SCREEN_WIDTH	800
 #define SCREEN_HEIGHT	600
