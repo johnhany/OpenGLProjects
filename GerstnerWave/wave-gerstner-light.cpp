@@ -320,7 +320,7 @@ static void calcuWave(void)
 		{
 			wave = 0.0;
 			for(int w=0; w<WAVE_COUNT; w++){
-				d = (pt_strip[index] - values.wave_start[w*2] + (pt_strip[index+1] - values.wave_start[w*2+1]) * tan(values.wave_dir[w])) * cos(values.wave_dir[w]) * cos(values.wave_dir[w]);
+				d = (pt_strip[index] - values.wave_start[w*2] + (pt_strip[index+1] - values.wave_start[w*2+1]) * tan(values.wave_dir[w])) * cos(values.wave_dir[w]);
 				if(gerstner_sort[w] == 1){
 					wave += values.wave_height[w] - gerstnerZ(values.wave_length[w], values.wave_height[w], d + values.wave_speed[w] * values.time, gerstner_pt_a);
 				}else{
